@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
 // get one product by id with Category and Tag data
 router.get('/:id', async (req, res) => {
   try {
-    const product = await Product.findByPk(req.params.id, { include: [Category, Tag] });
+    const product = await Product.findOne(req.params.id, { include: [Category, Tag] });
     res.status(200).json(product)
   }
   catch (err) {
