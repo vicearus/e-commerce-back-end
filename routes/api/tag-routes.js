@@ -7,7 +7,7 @@ const { Tag, Product, ProductTag } = require('../../models');
 router.get('/', async (req, res) => {
   try {
     const tags = await Tag.findAll({ include: [Product] });
-    res.json(tags)
+    res.status(200).json(tags)
   }
   catch (err) {
     res.status(400).json(err);
@@ -18,7 +18,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const tag = await Tag.findByPk(req.params.id, { include: [Product] });
-    res.json(tag)
+    res.status(200).json(tag)
   }
   catch (err) {
     res.status(400).json(err);
@@ -29,7 +29,7 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
   try {
     const tag = await Tag.create(req.body);
-    res.json(tag);
+    res.status(200).json(tag);
   }
   catch (err) {
     res.status(400).json(err);
@@ -40,7 +40,7 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     const tag = await Tag.update(req.body, { where: { id: req.params.id } });
-    res.json(tag)
+    res.status(200).json(tag)
   }
   catch (err) {
     res.status(400).json(err);
@@ -51,7 +51,7 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     const tag = await Tag.destroy({ where: { id: req.params.id } });
-    res.json(tag);
+    res.status(200).json(tag);
   }
   catch (err) {
     res.status(400).json(err);
