@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
     const products = await Product.findAll({ include: [Category, Tag] });
     res.json(products)
   }
-  catch {
+  catch (err) {
     res.status(500).json(err);
   }
 });
@@ -20,7 +20,7 @@ router.get('/:id', async (req, res) => {
     const product = await Product.findByPk({ include: [Category, Tag] });
     res.json(product)
   }
-  catch {
+  catch (err) {
     res.status(500).json(err);
   }
 });
@@ -45,12 +45,15 @@ router.post('/', async (req, res) => {
           tag_id,
         };
       });
-      return ProductTag.bulkCreate(productTagIdArr);
+
+      const productTagIds = await ProductTag.bulkCreate(productTagIdArr);
+      res.json(productTagIds)
+
     }
     // if no product tags, just respond
     res.json(product)
   }
-  catch {
+  catch (err) {
     res.status(500).json(err);
   }
 });
@@ -84,7 +87,7 @@ router.put('/:id', async (req, res) => {
       .map(({ id }) => id);
 
     // run both actions
-    const updatedProductTags = await Promise.all([
+    const updatedProductTags = await ProductTag.all([
       ProductTag.destroy({ where: { id: productTagsToRemove } }),
       ProductTag.bulkCreate(newProductTags),
     ]);
@@ -100,7 +103,7 @@ router.delete('/:id', async (req, res) => {
     const product = await Product.destroy({ where: { id: req.params.id } });
     res.json(product)
   }
-  catch {
+  catch (err) {
     res.status(400).json(err);
   }
 });

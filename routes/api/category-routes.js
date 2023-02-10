@@ -31,7 +31,7 @@ router.post('/', async (req, res) => {
     const category = await Category.create(req.body);
     res.json(category);
   }
-  catch {
+  catch (err) {
     res.status(500).json(err)
   }
 });
@@ -42,7 +42,7 @@ router.put('/:id', async (req, res) => {
     const category = await Category.update(req.body, { where: { id: req.params.id } });
     res.json(category);
   }
-  catch {
+  catch (err) {
     res.status(500).json(err)
   }
 });
@@ -53,7 +53,7 @@ router.delete('/:id', async (req, res) => {
     const category = await Category.destroy(req.body, { where: { id: req.params.id } });
     res.json(category);
   }
-  catch {
+  catch (err) {
     res.status(500).json(err)
   }
 });
